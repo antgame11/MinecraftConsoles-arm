@@ -80,7 +80,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Build
-      run: MSBuild.exe MinecraftConsoles.sln /p:Configuration=Release /p:Platform="ARM64"
+      run: MSBuild.exe MinecraftConsoles.sln /p:Configuration=Release /p:Platform="ARM64EC"
 
     - name: Zip Build
       run: 7z a -r LCEARM64.zip ./arm64/Release/*
