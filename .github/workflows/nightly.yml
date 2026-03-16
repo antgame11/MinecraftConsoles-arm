@@ -17,7 +17,7 @@ permissions:
 jobs:
   build-x64:
     name: Build Windows64
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
     - name: Checkout
@@ -71,7 +71,6 @@ jobs:
   build-arm64:
     name: Build Windows ARM64
     runs-on: windows-2022
-    architecture: arm64
 
     steps:
     - name: Checkout
