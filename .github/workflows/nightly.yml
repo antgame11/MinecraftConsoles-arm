@@ -1,7 +1,7 @@
 name: Nightly Releases
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
   push:
     branches:
     - 'main'
@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-x64:
     name: Build Windows64
     runs-on: windows-latest
 
@@ -67,3 +67,57 @@ jobs:
             LCEServerWindows64.zip
             ./x64/Minecraft.Server/Release/Minecraft.Server.exe
             ./x64/Minecraft.Server/Release/Minecraft.Server.pdb
+
+  build-arm64:
+    name: Build Windows ARM64
+    runs-on: windows-2022
+    architecture: arm64
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Setup msbuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build
+      run: MSBuild.exe MinecraftConsoles.sln /p:Configuration=Release /p:Platform="ARM64"
+
+    - name: Zip Build
+      run: 7z a -r LCEARM64.zip ./arm64/Release/*
+
+    - name: Zip Dedicated Server Build
+      run: 7z a -r LCEServerARM64.zip ./arm64/Minecraft.Server/Release/*
+
+    - name: Update Client release
+      uses: andelf/nightly-release@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: nightly-arm64
+        name: Nightly Client Release for ARM64
+        body: |
+          Requires a compatible ARM64 system. Compiled with MSVC v14.44.35207 in Release mode with Whole Program Optimization, as well as `/O2 /Ot /Oi /Ob3 /GF /fp:precise`.
+          
+          # 🚨 First time here? 🚨
+          If you've never downloaded the game before, you need to download `LCEARM64.zip` and extract it to the folder where you'd like to keep the game. The other files are included in this `.zip` file!
+        files: |
+            LCEARM64.zip
+            ./arm64/Release/Minecraft.Client.exe
+            ./arm64/Release/Minecraft.Client.pdb
+
+    - name: Update Dedicated Server release
+      uses: andelf/nightly-release@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: nightly-dedicated-server-arm64
+        name: Nightly Dedicated Server Release for ARM64
+        body: |
+          Dedicated Server runtime for ARM64.
+
+          Download `LCEServerARM64.zip` and extract it to a folder where you'd like to keep the server runtime.
+        files: |
+            LCEServerARM64.zip
+            ./arm64/Minecraft.Server/Release/Minecraft.Server.exe
+            ./arm64/Minecraft.Server/Release/Minecraft.Server.pdb
