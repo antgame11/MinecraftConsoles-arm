@@ -4,6 +4,7 @@ class Options;
 using namespace std;
 #include "..\..\Minecraft.World\SoundTypes.h"
 
+#define MA_NO_AVX2
 #include "miniaudio.h"
 
 constexpr float SFX_3D_MIN_DISTANCE = 1.0f;
