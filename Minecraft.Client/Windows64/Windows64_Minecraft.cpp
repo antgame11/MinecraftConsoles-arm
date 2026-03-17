@@ -1916,6 +1916,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Free resources, unregister custom classes, and exit.
 	//	app.Uninit();
 	g_pd3dDevice->Release();
+	return 0;
 }
 
 #ifdef MEMORY_TRACKING

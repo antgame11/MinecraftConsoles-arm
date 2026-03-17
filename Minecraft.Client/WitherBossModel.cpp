@@ -46,11 +46,11 @@ void WitherBossModel::render(shared_ptr<Entity> entity, float time, float r, flo
 {
 	setupAnim(time, r, bob, yRot, xRot, scale, entity);
 
-	for (int i = 0; i < heads.length; i++)
+	for (size_t i = 0; i < heads.length; i++)
 	{
 		heads[i]->render(scale, usecompiled);
 	}
-	for (int i = 0; i < upperBodyParts.length; i++)
+	for (size_t i = 0; i < upperBodyParts.length; i++)
 	{
 		upperBodyParts[i]->render(scale, usecompiled);
 	}
