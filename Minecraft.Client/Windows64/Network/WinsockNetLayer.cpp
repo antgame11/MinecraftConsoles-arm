@@ -1084,7 +1084,7 @@ bool WinsockNetLayer::StartAdvertising(int gamePort, const wchar_t* hostName, un
 	s_advertiseData.gamePort = static_cast<WORD>(gamePort);
 	wcsncpy_s(s_advertiseData.hostName, 32, hostName, _TRUNCATE);
 	s_advertiseData.playerCount = 1;
-	s_advertiseData.maxPlayers = MINECRAFT_NET_MAX_PLAYERS;
+	s_advertiseData.maxPlayers = (BYTE)MINECRAFT_NET_MAX_PLAYERS;
 	s_advertiseData.gameHostSettings = gameSettings;
 	s_advertiseData.texturePackParentId = texPackId;
 	s_advertiseData.subTexturePackId = subTexId;
